@@ -1,0 +1,90 @@
+{% extends 'partials/base.html' %} {% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4">Programările tale viitoare</h2>
+
+  {% if appointments %}
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>Psiholog</th>
+          <th>Data</th>
+          <th>Ora</th>
+          <th>Status</th>
+          <th>Acțiuni</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for appointment in appointments %}
+        <tr>
+          <td>{{ appointment.psychologist.full_name }}</td>
+          <td>{{ appointment.datetime|date:"Y-m-d" }}</td>
+          <td>{{ appointment.datetime|date:"H:i" }}</td>
+          <td>
+            {% if appointment.is_cancelled %}
+              <span class="badge bg-danger mb-1">
+                {% if appointment.cancelled_by_psychologist %}
+                  Anulată de psiholog
+                {% else %}
+                  Anulată de client
+                {% endif %}
+              </span><br>
+
+              {% if appointment.cancellation_reason %}
+                <span class="text-danger"><strong>Motiv:</strong> {{ appointment.cancellation_reason }}</span>
+              {% endif %}
+            {% else %}
+              <span class="badge bg-success">Activă</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if not appointment.is_cancelled %}
+            <a
+              href="{% url 'reschedule_appointment' appointment.id %}"
+              class="btn"
+              style="
+                background-color: #183d4f;
+                border-color: #183d4f;
+                color: white;
+              "
+              >Reprogramează</a
+            >
+            <a
+              href="{% url 'cancel_appointment' appointment.id %}"
+              class="btn"
+              style="
+                background-color: #183d4f;
+                border-color: #183d4f;
+                color: white;
+              "
+              onclick="return confirm('Ești sigur că vrei să anulezi această programare?');"
+              >Anulează</a
+            >
+            {% else %}
+              {% if appointment.is_cancelled %}
+                <form method="post" action="{% url 'delete_appointment' appointment.id %}" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger btn-sm">Șterge</button>
+                </form>
+              {% else %}
+                <span class="text-muted">Nicio acțiune</span>
+              {% endif %}
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="text-muted">Nu ai nicio programare viitoare.</p>
+  {% endif %}
+
+  <a
+    href="{% url 'psychologist_list' %}"
+    class="btn"
+    style="background-color: #183d4f; border-color: #183d4f; color: white"
+    >Programează-te</a
+  >
+</div>
+{% endblock %}

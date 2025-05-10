@@ -1,0 +1,32 @@
+{% extends 'partials/base.html' %}{% load form_tags %} {%block content %}
+<h3 class="mt-4 mb-4 text-center">
+  Programează o ședință cu {{ psychologist.user.get_full_name }}
+</h3>
+<form method="POST" class="container mt-4" style="max-width: 600px">
+  {% csrf_token %}
+  <div class="mb-3">
+    {{ form.datetime.label_tag }} {{ form.datetime|add_class:"form-control" }}
+  </div>
+
+  <div class="mb-3">
+    {{ form.message.label_tag }} {{ form.message|add_class:"form-control" }}
+  </div>
+
+  <button
+    type="submit"
+    class="btn"
+    style="background-color: #183d4f; border-color: #183d4f; color: white"
+  >
+    Trimite
+  </button>
+</form>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+  flatpickr("#datetimepicker", {
+    enableTime: true,
+    time_24hr: true,
+    dateFormat: "Y-m-d H:i",
+    minDate: "today",
+  });
+</script>
+{% endblock %}

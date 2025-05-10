@@ -1,0 +1,56 @@
+{% extends 'partials/base.html' %} {% block content %}
+<div class="container mt-5" style="max-width: 600px">
+  <h2 class="mb-4" style="color: #183d4f">Reprogramează ședința</h2>
+
+  {% if form.errors %}
+  <div class="alert alert-danger">
+    <strong>Au apărut erori:</strong>
+    <ul>
+      {% for field in form %} {% for error in field.errors %}
+      <li>{{ field.label }}: {{ error }}</li>
+      {% endfor %} {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  <form method="POST">
+    {% csrf_token %}
+
+    <div class="mb-3">{{ form.datetime.label_tag }} {{ form.datetime }}</div>
+
+    <div class="mb-3">{{ form.message.label_tag }} {{ form.message }}</div>
+
+    <button
+      type="submit"
+      class="btn"
+      style="background-color: #183d4f; border-color: #183d4f; color: white"
+    >
+      Salvează modificările
+    </button>
+    <a
+      href="{% url 'client_dashboard' %}"
+      class="btn"
+      style="background-color: #183d4f; border-color: #183d4f; color: white"
+    >
+      Renunță
+    </a>
+  </form>
+</div>
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+/>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+  flatpickr("[name='datetime']", {
+    enableTime: true,
+    dateFormat: "Y-m-d\\TH:i",
+    altInput: true,
+    altFormat: "F j, Y H:i",
+    minDate: "today",
+    time_24hr: true,
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'partials/base.html' %} {% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4">Programările tale</h2>
+
+  {% if appointments %}
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>Client</th>
+          <th>Data</th>
+          <th>Ora</th>
+          <th>Mesaj de la client</th>
+          <th>Status</th>
+          <th>Acțiuni</th> 
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for appt in appointments %}
+        <tr>
+          <td>{{ appt.client.full_name }}</td>
+          <td>{{ appt.datetime|date:"Y-m-d" }}</td>
+          <td>{{ appt.datetime|time:"H:i" }}</td>
+          <td>
+            {% if appt.message %} {{ appt.message }} {% else %}
+            <span class="text-muted">Fără mesaj</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if appt.is_cancelled and appt.cancelled_by_psychologist %}
+            <span class="badge bg-danger">Anulată de psiholog</span><br />
+            <small
+              ><strong>Motiv:</strong> {{ appt.cancellation_reason }}</small
+            >
+            {% elif appt.is_cancelled %}
+            <span class="badge bg-danger">Anulată</span>
+            {% else %}
+            <span class="badge bg-success">Activă</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if appt.is_cancelled %}
+              <form method="post" action="{% url 'delete_appointment' appt.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">Șterge</button>
+              </form>
+            {% else %}
+              <span class="text-muted">Nicio acțiune</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if not appt.is_cancelled %}
+            <a
+              href="{% url 'cancel_by_psychologist' appt.id %}"
+              class="btn btn-sm btn-outline-danger"
+              >Anulează</a
+            >
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="alert alert-info">Momentan nu ai nicio programare.</div>
+  {% endif %}
+</div>
+{% endblock %}

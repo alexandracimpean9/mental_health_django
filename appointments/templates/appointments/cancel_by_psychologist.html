@@ -1,0 +1,20 @@
+{% extends 'partials/base.html' %} {% block content %}
+<div class="container mt-4">
+  <h2 class="mb-3">Anulează programarea</h2>
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      {{ form.cancellation_reason.label_tag }} {{ form.cancellation_reason }}
+      {%if form.cancellation_reason.errors %}
+      <div class="text-danger">{{ form.cancellation_reason.errors }}</div>
+      {% endif %}
+    </div>
+
+    <button type="submit" class="btn btn-danger">Anulează programarea</button>
+    <a href="{% url 'psychologist_dashboard' %}" class="btn btn-secondary"
+      >Renunță</a
+    >
+  </form>
+</div>
+{% endblock %}

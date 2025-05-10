@@ -1,0 +1,63 @@
+{% extends 'partials/base.html' %} {% block content %}
+<h2 class="text-center my-4">Alege un psiholog</h2>
+
+<div class="container">
+  <div class="row">
+    {% for psychologist in psychologists %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm psychologist-card">
+        {% if psychologist.photo %}
+        <div class="text-center p-3" style="background-color: #f8f9fa">
+          <img
+            src="{{ psychologist.photo.url }}"
+            style="
+              max-height: 200px;
+              max-width: 100%;
+              object-fit: contain;
+              border-radius: 6px;
+            "
+            alt="Foto psiholog"
+            class="mb-2"
+          />
+          <h5 class="mb-0">{{ psychologist.full_name }}</h5>
+        </div>
+        {% else %}
+        <img
+          src="https://via.placeholder.com/300x200?text=Psiholog"
+          class="card-img-top"
+          alt="Placeholder"
+        />
+        {% endif %}
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ psychologist.user.get_full_name }}</h5>
+          <p class="card-text">
+            <strong>Specializare:</strong> {{ psychologist.specialization }}
+          </p>
+          <p class="card-text">
+            {{ psychologist.description|truncatewords:30 }}
+          </p>
+          <p class="card-text text-muted">
+            Disponibilitate: {{ psychologist.available|yesno:"Da,Nu" }}
+          </p>
+          {% if user.is_authenticated and user.is_client %}
+          <a
+            href="{% url 'book_appointment' psychologist.id %}"
+            class="btn custom-btn btn-block"
+          >
+            Programează-te
+          </a>
+          {% else %}
+          <a
+            href="{% url 'login' %}?next={% url 'book_appointment' psychologist.id %}"
+            class="btn btn-secondary"
+          >
+            Autentifică-te pentru a te programa
+          </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "partials/base.html" %} {% load static %} {% block content %}
+<section class="container">
+  <div class="row d-flex justify-content-center align-items-center">
+    <div class="col-12 col-lg-7 p-4 rounded-3 bg-white text-center">
+      <h1 class="fw-bold mb-4" style="color: #264653">
+        Mental Health Clinic
+      </h1>
+      <p class="lead" style="color: #6b7280">
+        Fiecare minte este unică. La Mental Health Clinic, credem că bunăstarea
+        emoțională este la fel de importantă ca sănătatea fizică. Fie că te
+        confrunți cu anxietate, epuizare profesională, dificultăți în relații sau pur și
+        simplu simți nevoia să vorbești cu cineva, suntem aici pentru tine.
+      </p>
+      <p class="lead mt-3" style="color: #6b7280">
+        Psihologii noștri licențiați oferă consiliere personalizată într-un spațiu sigur
+        și confidențial, ajutându-te să-ți redobândești echilibrul, claritatea și
+        încrederea în tine.
+      </p>
+
+      <div class="mt-4">
+        <a
+          href="{% url 'psychologist_list' %}"
+          class="btn btn-lg text-white"
+          style="background-color: #264653; border: none"
+        >
+          Programează-te <i class="fas fa-arrow-right ms-2"></i>
+        </a>
+      </div>
+
+      <div class="mt-5">
+        <h3 class="fw-semibold mb-3" style="color: #264653">De ce să alegi clinica noastră?</h3>
+        <ul class="text-muted lead list-unstyled">
+          <li>✔️ Psihologi acreditați și empatici</li>
+          <li>✔️ Programări online rapide și ușor de gestionat</li>
+          <li>✔️ Sprijin pentru o gamă largă de dificultăți emoționale</li>
+          <li>✔️ Ședințe față în față sau online</li>
+          <li>✔️ Confidențialitate garantată</li>
+        </ul>
+      </div>
+
+      <div class="mt-5">
+        <h5 class="fw-semibold mb-2" style="color: #264653">Date de contact</h5>
+        <p class="text-muted mb-1">📍 Cluj-Napoca, Strada Avram Iancu, Nr. 454</p>
+        <p class="text-muted mb-1">📞 Telefon: 0740 000 000</p>
+        <p class="text-muted">📧 Email: contact@mentalhealthclinic.ro</p>
+      </div>
+
+      <div class="mt-4 text-muted fst-italic">
+        „Ai grijă de mintea ta, la fel cum ai grijă de corpul tău.”
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-5">
+      <img
+        src="{% static 'images/first_page.jpg' %}"
+        alt="Imagine psiholog"
+        class="img-fluid rounded"
+      />
+    </div>
+  </div>
+</section>
+{% endblock content %}
